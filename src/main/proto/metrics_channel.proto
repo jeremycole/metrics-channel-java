@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package us.jcole.metrics_channel;
+
+option java_package = "us.jcole.metrics_channel.proto";
+option java_outer_classname = "MetricsChannel";
+
+message MetricMessage {
+    enum Type {
+        RATE = 1;
+        COUNTER = 2;
+        ABSOLUTE = 3;
+    }
+
+    required string name = 1;
+    required double value = 2;
+    required Type type = 3;
+}
+
+message SampleMessage {
+    required int64 date = 1;
+    repeated MetricMessage metrics = 2;
+}

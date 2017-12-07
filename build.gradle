@@ -1,0 +1,46 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+        classpath 'org.apache.activemq:apache-activemq:5.15.2'
+    }
+}
+
+dependencies {
+    compile 'com.google.protobuf:protobuf-java:3.5.0'
+    compile 'org.apache.activemq:apache-activemq:5.15.2'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/gen"
+
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.5.0'
+    }
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
+
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+    }
+}

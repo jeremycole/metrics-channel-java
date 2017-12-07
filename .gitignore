@@ -2,3 +2,10 @@ out
 gen
 activemq-data
 build
+
+.gradle
+.idea
+
+*.class
+*.iml
+
