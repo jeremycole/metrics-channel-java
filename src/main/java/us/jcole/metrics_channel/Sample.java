@@ -4,7 +4,7 @@ import us.jcole.metrics_channel.proto.MetricsChannel;
 
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -71,7 +71,7 @@ public class Sample {
 
     public Sample(Date date) {
         mDate = date;
-        mData = new HashMap<String, Data>();
+        mData = new LinkedHashMap<>();
     }
 
     public Date getDate() {
@@ -80,6 +80,18 @@ public class Sample {
 
     public Map<String, Data> getData() {
         return mData;
+    }
+
+    public int size() {
+        return mData.size();
+    }
+
+    public boolean exists(Object key) {
+        return mData.containsKey(key);
+    }
+
+    public Data get(Object key) {
+        return mData.get(key);
     }
 
     @Override
@@ -113,7 +125,7 @@ public class Sample {
     }
 
     Data first() {
-        mData.values().
+        return mData.values().iterator().next();
     }
 
     static Sample minus(Sample a, Sample b) {

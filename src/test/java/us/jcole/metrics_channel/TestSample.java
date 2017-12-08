@@ -2,6 +2,8 @@ package us.jcole.metrics_channel;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +15,14 @@ public class TestSample {
         Sample sample = new Sample(new Date(0));
         sample.add("foo", 1.0, Sample.Type.Absolute);
         assertEquals(sample.getDate(), new Date(0));
+        Sample.Data data = sample.get("foo");
+        assertEquals(data.getName(), "foo");
+        assertTrue(Double.compare(data.getValue(), 1.0) == 0);
+        assertEquals(data.getType(), Sample.Type.Absolute);
     }
 
-    public static void notReallyMain(String[] args) {
+    @Test
+    public void testMinus() {
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
@@ -29,9 +36,26 @@ public class TestSample {
 
             Sample c = b.minus(a);
 
-            c.dump(System.out);
+            assertTrue(c.size() == 4);
+
+            assertTrue(c.exists(".time.elapsed"));
+            assertTrue(Double.compare(c.get(".time.elapsed").getValue(), 1000.0) == 0);
+            assertEquals(c.get(".time.elapsed").getType(), Sample.Type.Absolute);
+
+            assertTrue(c.exists("foo"));
+            assertTrue(Double.compare(c.get("foo").getValue(), 16.0) == 0);
+            assertEquals(c.get("foo").getType(), Sample.Type.Absolute);
+
+            assertTrue(c.exists("bar"));
+            assertTrue(Double.compare(c.get("bar").getValue(), 27.0) == 0);
+            assertEquals(c.get("bar").getType(), Sample.Type.Counter);
+
+            assertTrue(c.exists("bar.rate"));
+            assertTrue(Double.compare(c.get("bar.rate").getValue(), 0.004) == 0);
+            assertEquals(c.get("bar.rate").getType(), Sample.Type.Rate);
         } catch (ParseException pe) {
             System.err.println("ParseException: " + pe);
+            assertTrue(false);
         }
     }
 }
