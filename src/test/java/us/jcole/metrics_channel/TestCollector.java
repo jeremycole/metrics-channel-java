@@ -16,17 +16,19 @@ public class TestCollector {
 
         public Iterator<Sample.Data> iterator() {
             return new Iterator<Sample.Data>() {
+                int iteratorCount = mCount;
+
                 public void remove() {
 
                 }
 
                 public boolean hasNext() {
-                    return mCount > 0;
+                    return iteratorCount > 0;
                 }
 
                 public Sample.Data next() {
-                    mCount--;
-                    return new Sample.Data(String.format("%d", mCount), mRandom.nextDouble(), Sample.Type.Absolute);
+                    iteratorCount--;
+                    return new Sample.Data(String.format("%d", iteratorCount), mRandom.nextDouble(), Sample.Type.Absolute);
                 }
             };
         }
