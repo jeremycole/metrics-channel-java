@@ -129,7 +129,7 @@ public class Sample {
     }
 
     static Sample minus(Sample a, Sample b) {
-        Sample result = new Sample(b.getDate());
+        Sample result = new Sample(a.getDate());
 
         double elapsed_time = a.getDate().getTime() - b.getDate().getTime();
         result.add(".time.elapsed", elapsed_time, Type.Absolute);
@@ -139,20 +139,20 @@ public class Sample {
                 result.add(key, null, null);
             }
 
-            Data this_data = a.getData().get(key);
-            Data other_data = b.getData().get(key);
+            Data a_data = a.getData().get(key);
+            Data b_data = b.getData().get(key);
 
-            if (this_data.getType() != other_data.getType()) {
+            if (a_data.getType() != b_data.getType()) {
                 result.add(key, null, null);
             }
 
-            switch (this_data.getType()) {
+            switch (a_data.getType()) {
                 case Counter:
-                    double rated_value = (this_data.getValue() - other_data.getValue()) / elapsed_time;
+                    double rated_value = (a_data.getValue() - b_data.getValue()) / elapsed_time;
                     result.add(key + ".rate", rated_value, Type.Rate);
                     break;
             }
-            result.add(key, this_data.getValue(), this_data.getType());
+            result.add(key, a_data.getValue(), a_data.getType());
         }
 
         return result;
