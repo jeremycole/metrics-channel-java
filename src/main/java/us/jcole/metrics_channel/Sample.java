@@ -112,7 +112,8 @@ public class Sample {
         ps.println(mDate.toString() + ":");
         for (String key : mData.keySet()) {
             Sample.Data data = mData.get(key);
-            ps.printf("  %-20s = %f (%s)\n", key, data.getValue(), data.getType());
+            ps.printf("  %-32s%-10s%20.6f%s\n", key, data.getType(), data.getValue(),
+                    data.getType() == Type.Rate ? "/ms" : "");
         }
     }
 
