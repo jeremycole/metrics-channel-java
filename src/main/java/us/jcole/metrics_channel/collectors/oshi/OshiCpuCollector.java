@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class OshiCpuCollector extends OshiCollector {
-    final String prefix = "cpu/";
+    private final String prefix = "cpu/";
 
     @Override
     public Iterator<Sample.Data> iterator() {

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class OshiMemoryCollector extends OshiCollector {
-    final String prefix = "memory/";
+    private final String prefix = "memory/";
 
     @Override
     public Iterator<Sample.Data> iterator() {
